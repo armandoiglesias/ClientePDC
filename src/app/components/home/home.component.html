@@ -1,0 +1,127 @@
+<div class="jumbotron">
+  <h1 class="display-3">Proyectos por Organismo</h1>
+  <!-- <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p> -->
+  <hr class="my-4">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputCity" class="col-form-label">Codigo del Organismo</label>
+      <input type="text" [(ngModel)]="orgCode" name="orgCode"   class="form-control" id="inputCity">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputState"  class="col-form-label">Año</label>
+      <select [(ngModel)]="selectedYear" name="selectedYear" id="inputState" class="form-control">Seleccione
+        <option *ngFor="let item of years" value="{{item}}">{{item}}</option>
+      </select>
+    </div>
+
+    <!-- <ba-open-iconic icon="thumb-up"></ba-open-iconic> -->
+    
+  </div>
+  <div class="form-group row">
+    
+    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+      
+    </div>
+    
+    <div class="col-sm-2">
+      <button *ngIf="timeout" (click)="Buscar()" type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+  </div>
+</div>
+
+<div class="text-center" *ngIf="loading">
+  <hr>
+  <img src="assets/ajax-loader.gif" alt="ajax gif">
+</div>
+
+<div class="row" *ngIf="proyectos.length > 0">
+  <hr>
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr class="" >
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Descripci&oacute;n</th>
+        <!-- <th>Monto</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let proyecto of proyectos">
+        <!-- <td><a class="btn btn-info" (click)="mostrarItems(proyecto.id)">{{proyecto.id}}</a> </td> -->
+        <td><a class="btn btn-info" (click)="mostrarItems(proyecto.id)">{{proyecto.codigo}}</a> </td>
+        
+        <td>{{proyecto.nombre}}</td>
+        <td >{{proyecto.nombre_organizacion | acortarStr}}</td>
+        <!-- <td >{{ proyecto.monto }}</td> -->
+      </tr>
+    </tbody>
+  </table>
+<!-- 
+  <nav aria-label="...">
+      <ul class="pagination">
+        <li class="page-item disabled">
+          <span class="page-link" [ngClass]="{'hidden': page > 1}" >Previa</span>
+        </li>
+        <li class="page-item" *ngFor="let counter of proyectos.length / 10; let i = index" ><a class="page-link" href="#">{{index +1 }}</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#">Siguiente</a>
+        </li>
+      </ul>
+    </nav> -->
+  
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Items Por Proyecto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+          <div class="card text-white bg-secondary" *ngIf="proyecto != null" >
+                <div class="card-body">
+                  <h4 class="card-title">{{proyecto.nombre}}</h4>
+                  <h6 class="card-subtitle mb-2">{{proyecto.identificador}}</h6>
+                  <p class="card-text">{{proyecto.descripcion}}</p>
+                </div>
+              </div>
+
+<hr>
+
+        <table class="table table-striped" *ngIf="items.length > 0">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Nombre Compra</th>
+              <th>Tipo</th>
+              <th>Total</th>
+              <th>Cod. Sigfe</th>
+             
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of items">
+              <th>{{item.Id}}</th>
+              <td>{{item.NombreCompra}}</td>
+              <td>{{item.Tipo}}</td>
+              <td>{{item.Total}}</td>
+              <td>
+                  <span *ngIf="item.CodigoPresupuestario != 'Campo Sigfe'" class="text-small">{{item.CodigoPresupuestario}}</span>
+                  <button *ngIf="item.CodigoPresupuestario == 'Campo Sigfe'" (click)="getSigfeCode(item.Id)" type="button" class="btn btn-primary">Obtener</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
